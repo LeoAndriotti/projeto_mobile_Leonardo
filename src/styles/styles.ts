@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     tela: {
         flex: 1, 
-       // backgroundColor: '#00FFFF' 
+       backgroundColor: '#00FFFF' 
     },
     tituloTela: {
       fontSize: 35, 
@@ -14,10 +14,16 @@ const styles = StyleSheet.create({
     titulo1: {
         fontSize: 40,
         fontWeight: 'bold',
-        color: 'black'
+        color: 'black',
+        textAlign: 'center',
     },
     titulo2: {
         fontSize: 30,
+        fontWeight: 'bold',
+        color: 'black'
+    },
+    titulo3: {
+        fontSize: 20,
         fontWeight: 'bold',
         color: 'black'
     },
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 20,
         borderWidth: 1,
-        borderRadius: 4,
+        borderRadius: 10,
         margin: 3,
         backgroundColor: 'white',
     },
