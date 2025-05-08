@@ -5,8 +5,29 @@ import { useState } from "react";
 
 
 const CadastroCliente = () => {
-    const [ativado, setAtivado] = useState(false);
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [ativado, setAtivado] = useState('nao');
     const [checked, setChecked] = React.useState('first');
+
+    function exibirMensagem() {
+        Alert.alert(
+          'Cadastro realizado com sucesso!'+
+          'Cliente',
+          'Nome::' + nome +
+          '\nE-mail:' + email + 
+          '\nTelefone:' + telefone +
+        '\nComorbidade:' + ativado
+        )
+      }
+      function limparcampos() {
+          setNome('');
+          setEmail('');
+          setTelefone('');
+          setAtivado('nao');
+      }
+
     return (
         <View style={styles.tela}>
             <View style={[styles.centralizar, stylesLocal.fundo]}>
@@ -18,36 +39,48 @@ const CadastroCliente = () => {
 
                 <Text style={styles.titulo3}>Nome:</Text>
                 <TextInput
+                    value={nome}
                     style={[styles.caixa_texto, styles.largura_70]}
                     placeholder='Nome'
+                    onChangeText={(text) => { 
+                        setNome(text);
+                    }}
                 />
                 <Text style={styles.titulo3}>E-mail:</Text>
                 <TextInput
+                    value={email}
                     style={[styles.caixa_texto, styles.largura_70]}
                     placeholder='E-mail'
+                    onChangeText={(text1) => { 
+                        setEmail(text1);
+                    }}
                 />
                 <Text style={styles.titulo3}>Telefone:</Text>
                 <TextInput
+                    value={telefone}
                     style={[styles.caixa_texto, styles.largura_70]}
                     placeholder='Telefone'
+                    onChangeText={(text2) => { 
+                        setTelefone(text2);
+                    }}
                 />
                 <Text style={stylesLocal.tituloRadio}>Possui Comorbidades?</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#D3D3D3', padding: 20 }}>
                 <Switch 
-                value={ativado} 
-                onValueChange={(value)=>{setAtivado(value)}} 
+                value={ativado === 'sim'} 
+                onValueChange={(value)=>{setAtivado(value ? 'sim' : 'nao') }} 
                 />   
                 </View>
             </View>
             <View style={stylesLocal.botoes}>
                 <Pressable
                     style={stylesLocal.botaoCadastrar}
-                    onPress={() => { Alert.alert('Cadastro realizado com sucesso!') }}>
+                    onPress={() => {exibirMensagem()} }>
                     <Text style={[styles.titulo2, , stylesLocal.textoCadastCanc]}>Cadastro</Text>
                 </Pressable>
                 <Pressable
                     style={stylesLocal.botaoCancelar}
-                    onPress={() => { Alert.alert('Cadastro cancelado!') }}>
+                    onPress={() => {limparcampos()}}>
                     <Text style={[styles.titulo2, stylesLocal.textoCadastCanc]}>Cancelar</Text>
                 </Pressable>
             </View>
@@ -56,6 +89,7 @@ const CadastroCliente = () => {
     );
 }
 export default CadastroCliente;
+
 const stylesLocal = StyleSheet.create({
     tituloRadio: {
         fontSize: 25,

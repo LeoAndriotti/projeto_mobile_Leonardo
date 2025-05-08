@@ -9,6 +9,7 @@ import Exemplo06_TextInput from '../components/Exemplo06_TextInput';
 import Exemplo07_Image from '../components/Exemplo07_Image';
 import CadastroCliente from '../components/CadastroCliente';
 import Notas from '../components/Notas';
+import Exemplo13_State from '../components/Exemplo13_State';
 
 //Componente chamado TelaPrincipal que recebe 
 //PrincipalProps 
@@ -20,7 +21,7 @@ const TelaPrincipal = (props: PrincipalProps) => {
     <View
       style={[styles.tela]}>
         {/* <Exemplo07_Image/> */}
-        <Notas nota1={9} nota2={7} nome={"Leonardo"}/>
+        {<CadastroCliente/>}
     </View>
   );
 }

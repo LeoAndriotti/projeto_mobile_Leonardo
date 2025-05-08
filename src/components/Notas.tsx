@@ -28,7 +28,7 @@ const Notas = (props: NotasProps) => {
     return (
         <View style={[styles.tela, stylesLocal.centralizar]}>
             <Text style={styles.titulo1}>Notas</Text>
-            <Text style={styles.titulo2}>Nome: {props.nome}</Text>
+            <Text style={styles.titulo2}>Nomes: {props.nome}</Text>
             <Text style={styles.titulo2}>Nota 1: {props.nota1}</Text>
             <Text style={styles.titulo2}>Nota 2: {props.nota2}</Text>
             <Text style={styles.titulo2}>Média: {calcularMedia()}</Text>
