@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { styles } from "../styles/styles";
 import { TextInput } from "react-native-paper";
 
@@ -14,17 +14,6 @@ const Notas = (props: NotasProps) => {
     function calcularMedia() {
         return (props.nota1 + props.nota2) / 2;
     }
-    function verificarResultado() {
-        if (calcularMedia() >= 7) {
-            return "Aprovado";
-        }
-        else if (calcularMedia() >= 5) {
-            return "Recuperação";
-        }
-        else {
-            return "Reprovado";
-        }
-    }
     return (
         <View style={[styles.tela, stylesLocal.centralizar]}>
             <Text style={styles.titulo1}>Notas</Text>
@@ -32,7 +21,11 @@ const Notas = (props: NotasProps) => {
             <Text style={styles.titulo2}>Nota 1: {props.nota1}</Text>
             <Text style={styles.titulo2}>Nota 2: {props.nota2}</Text>
             <Text style={styles.titulo2}>Média: {calcularMedia()}</Text>
-            <Text style={styles.titulo2}>Resultado: {verificarResultado()}</Text>
+            {calcularMedia() >= 7 ?(
+            <Text style={styles.titulo2}>Aprovado</Text>
+            ) : (
+                <Text style={styles.titulo2}>Reprovado</Text>
+            )}
         </View>
     );
 }
