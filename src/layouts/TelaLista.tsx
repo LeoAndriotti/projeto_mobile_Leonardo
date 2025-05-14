@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, FlatList, Text, StyleSheet } from 'react-native';
-import { styles } from '../styles/styles';
+import { Text } from "react-native-paper";
+import { styles } from "../styles/styles";
+import { Button, FlatList, Pressable, StyleSheet, TextInput, View } from "react-native";
+import { useState } from "react";
+import HomeNavigator, { Listaprops } from "../navigation/HomeNavigator";
 
-type ListaProps = {
-    listaPessoas: string[]
-}   
-const Lista = (props: ListaProps) => {
+const TelaLista = (props: Listaprops) => {
     const [pessoa, setPessoa] = useState('');
-    const [lista, setLista] = useState(props.listaPessoas);
+    const [lista, setLista] = useState(props.route.params.listapessoas);
     const [fraseSelecionada, setFraseSelecionada] = useState('')
 
     const adicionarPessoa = () => {
@@ -40,7 +39,29 @@ const Lista = (props: ListaProps) => {
                 )}
             />
             <Text style ={[styles.titulo1]}>Nome: {fraseSelecionada}</Text>
+            <Pressable onPress={() => { props.navigation.goBack()}}>
+                        <Text style={[stylesLocal.botaoNav]}>Voltar</Text>
+        </Pressable>
         </View>
     );
 };
-export default Lista;
+export default TelaLista;
+const stylesLocal = StyleSheet.create({
+    centralizar: {
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    botaoNav: {
+        color: "white",
+        justifyContent: 'center',
+        alignItems:'center',
+        width: 'auto',
+        backgroundColor: 'green',
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        marginTop: 20,
+        borderRadius: 10,
+        textAlign: 'center'
+    }
+})

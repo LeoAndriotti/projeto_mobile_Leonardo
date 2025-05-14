@@ -6,6 +6,18 @@ const styles = StyleSheet.create({
         flex: 1, 
        backgroundColor: '#gray' 
     },
+    margem: {
+        margin: 10
+    },
+    item: {
+        padding: 10,
+        fontSize: 25,
+        color: 'red',
+        borderWidth: 2,
+        borderColor: 'green', 
+        borderRadius: 10,
+        margin: 5
+    },
     tituloTela: {
       fontSize: 35, 
       textAlign: 'center',
