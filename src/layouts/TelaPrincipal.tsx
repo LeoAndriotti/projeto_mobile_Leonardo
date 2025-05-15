@@ -30,10 +30,13 @@ const TelaPrincipal = (props: PrincipalProps) => {
 
         <Pressable onPress={() => { 
             const text = "Default Alert Text"; 
-            props.navigation.navigate('TelaExercicio5', {onClick: (text) => Alert.alert(text)}) 
-        }}>
+            props.navigation.navigate('TelaExercicio5', {onClick: (text) => Alert.alert(text)})}}>
             <Text style={styleLocal.botaoNav}>Tela Exercicio 5</Text>
         </Pressable>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadCliente') }}>
+            <Text style={styleLocal.botaoNav}>Tela Cadastro Cliente</Text>
+        </Pressable>
+
     </View >
   );
 }

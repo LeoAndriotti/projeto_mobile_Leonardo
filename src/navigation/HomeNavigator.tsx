@@ -4,6 +4,7 @@ import TelaNova from "../layouts/TelaNova";
 import TelaNotas from "../layouts/TelaNotas";
 import TelaLista from "../layouts/TelaLista";
 import TelaExercicio5 from "../layouts/TelaExercicio5";
+import TelaCadCliente from "../layouts/TelaCadCliente";
 
 //Define quais as telas e os parâmetros de cada tela
 type RootStackParamList = {
@@ -12,6 +13,7 @@ type RootStackParamList = {
   TelaNotas:{nota1 : number, nota2: number, nome : string};
   TelaExercicio5: {onClick:(text: string) => void};
   TelaLista:{listapessoas : string[]};
+  TelaCadCliente: undefined;
 
 };
 
@@ -33,6 +35,7 @@ const HomeNavigator = () => {
       <Stack.Screen name="TelaNotas" component={TelaNotas} />
       <Stack.Screen name="TelaExercicio5" component={TelaExercicio5} />
       <Stack.Screen name="TelaLista" component={TelaLista} />
+      <Stack.Screen name="TelaCadCliente" component={TelaCadCliente} />
 
     </Stack.Navigator>
   );
@@ -55,6 +58,9 @@ type PrincipalProps = NativeStackScreenProps<RootStackParamList,
   type Listaprops = NativeStackScreenProps<RootStackParamList,
   'TelaLista'>;
 
+   type CadClienteProps = NativeStackScreenProps<RootStackParamList,
+  'TelaCadCliente'>;
+
 
 //exporta o navegador da pilha para ficar visível para outros arquivos    
 export default HomeNavigator;
@@ -65,5 +71,6 @@ export type {
   NovaProps,
   Notasprops,
   Exe5props,
-  Listaprops
+  Listaprops,
+  CadClienteProps
 };
