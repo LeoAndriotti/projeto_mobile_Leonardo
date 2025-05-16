@@ -10,7 +10,8 @@ const TelaCadCliente = (props: CadClienteProps) => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
-    const [comorbidade, setAtivado] = useState('nao');
+    const [cpf, setCpf] = useState('');
+    const [clube, setAtivado] = useState('nao');
     const [checked, setChecked] = React.useState('first');
 
   function cadastrar() {
@@ -19,7 +20,8 @@ const TelaCadCliente = (props: CadClienteProps) => {
           nome: nome,
           email: email,
           telefone: telefone,
-          comorbidade: comorbidade
+          cpf: cpf,
+          clube: clube
       } as Cliente;
 
 
@@ -88,10 +90,19 @@ const TelaCadCliente = (props: CadClienteProps) => {
                         setTelefone(text2);
                     }}
                 />
-                <Text style={stylesLocal.tituloRadio}>Possui Comorbidades?</Text>
+                <Text style={styles.titulo3}>CPF</Text>
+                <TextInput
+                    value={cpf}
+                    style={[styles.caixa_texto, styles.largura_70]}
+                    placeholder='CPF'
+                    onChangeText={(text3) => { 
+                        setEmail(text3);
+                    }}
+                />
+                <Text style={stylesLocal.tituloRadio}>Faz parte do clube?</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#D3D3D3', padding: 20 }}>
                 <Switch 
-                value={comorbidade === 'sim'} 
+                value={clube === 'sim'} 
                 onValueChange={(value)=>{setAtivado(value ? 'sim' : 'nao') }} 
                 />   
                 </View>

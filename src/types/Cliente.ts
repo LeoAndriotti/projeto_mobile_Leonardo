@@ -3,7 +3,8 @@ id: string,
 nome: string,
 email: string,
 telefone: string,
-comorbidade: string
+clube: string,
+cpf: string
 }
 
 export type {Cliente};
