@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 //o StyleSheet é a folha de estilo, equivalente ao css
 const styles = StyleSheet.create({
     tela: {
-        flex: 1, 
+        flex: 4, 
        backgroundColor: '#gray' 
     },
     margem: {
@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
       color: 'black' 
     },
     titulo1: {
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: 'bold',
         color: 'black',
-        textAlign: 'center',
+        marginTop: 20,
     },
     titulo2: {
         fontSize: 30,
@@ -80,8 +80,9 @@ const styles = StyleSheet.create({
     },
 
     imagem_200: {
-        width: 200,
-        height: 200
+        width: 100,
+        height: 100,
+        marginLeft: 270,
     },
 
     card:{
@@ -96,7 +97,6 @@ const styles = StyleSheet.create({
         opacity: 0.5
     },
     centralizar: {
-      alignItems: 'center'
     }
 });
 
