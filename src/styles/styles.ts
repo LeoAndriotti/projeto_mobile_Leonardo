@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
     item: {
         padding: 10,
         fontSize: 25,
-        color: 'red',
+        color: 'black',
         borderWidth: 2,
-        borderColor: 'green', 
+        borderColor: 'blue', 
         borderRadius: 10,
         margin: 5
     },
