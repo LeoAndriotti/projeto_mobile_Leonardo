@@ -1,8 +1,9 @@
 type Produto = {
-    id: string,
+    id: string,                
     nome: string,
     codigoBarras: string,
-    preco: number
+    preco: number,
+      
 }
 
-export type {Produto};
+export type { Produto };

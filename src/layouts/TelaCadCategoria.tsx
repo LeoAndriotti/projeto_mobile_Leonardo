@@ -3,28 +3,25 @@ import { View, Text, Image, Switch, TextInput, Pressable, StyleSheet, Alert } fr
 import { styles } from '../styles/styles';
 import { useState } from "react";
 import  firestore  from '@react-native-firebase/firestore';
-import { CadProdutoProps } from '../navigation/HomeNavigator';
-import { Produto } from '../types/Produto';
+import { CadCategoriaProps, CadClienteProps } from '../navigation/HomeNavigator';
+import { Categoria } from '../types/Categorias';
 
-const TelaCadProduto = (props: CadProdutoProps) => {
+const TelaCadCategoria = (props: CadCategoriaProps) => {
     const [nome, setNome] = useState('');
-    const [codigoBarras, setCodigoBarras] = useState('');
-    const [preco, setPreco] = useState('');
+   
 
   function cadastrar() {
     if (verificaCampos()) {
-      let produto = {
+      let categoria = {
           nome: nome,
-          codigoBarras: codigoBarras,
-          preco: Number(preco),
-      } as Produto;
+      } as Categoria;
 
 
       firestore()
-        .collection('produtos')
-        .add(produto)
+        .collection('categorias')
+        .add(categoria)
         .then(() => {
-          Alert.alert(" Produto cadastrado com sucesso!");
+          Alert.alert(" Categoria cadastrada com sucesso!");
           props.navigation.goBack();
         })
         .catch((error) => {
@@ -38,23 +35,15 @@ const TelaCadProduto = (props: CadProdutoProps) => {
             Alert.alert('Nome em branco! Digite um nome!')
             return false;
         }   
-        if(!codigoBarras){
-            Alert.alert('Sem código de barras!')
-            return false;
-        }   
-        if(!preco){
-            Alert.alert('Não foi definido valor!')
-            return false;
-        }  
         return true;      
     }
 
     return (
         <View style={styles.tela}>
             <View style={[styles.centralizar, stylesLocal.fundo]}>
-                <Text style={styles.titulo1}>Cadastro de Produtos</Text>
+                <Text style={styles.titulo1}>Cadastro de Categoria</Text>
                 <Image
-                    source={require('../images/produto.png')}
+                    source={require('../images/ctegoria.png')}
                     style={styles.imagem_200}
                 />
 
@@ -67,25 +56,6 @@ const TelaCadProduto = (props: CadProdutoProps) => {
                         setNome(text);
                     }}
                 />
-                <Text style={styles.titulo3}>Código de Barras:</Text>
-                <TextInput
-                    value={codigoBarras}
-                    style={[styles.caixa_texto, styles.largura_70]}
-                    placeholder='Código de Barras'
-                    onChangeText={(text1) => { 
-                        setCodigoBarras(text1);
-                    }}
-                />
-                <Text style={styles.titulo3}>Preço:</Text>
-                <TextInput
-                    value={preco}
-                    style={[styles.caixa_texto, styles.largura_70]}
-                    placeholder='Preço'
-                    onChangeText={(text2) => { 
-                        setPreco(text2);
-                    }}
-                />
-                
             </View>
             <View style={stylesLocal.botoes}>
                 <Pressable
@@ -103,7 +73,7 @@ const TelaCadProduto = (props: CadProdutoProps) => {
         </View>
     );
 }
-export default TelaCadProduto;
+export default TelaCadCategoria;
 
 const stylesLocal = StyleSheet.create({
     tituloRadio: {

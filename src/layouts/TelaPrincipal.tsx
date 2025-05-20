@@ -2,52 +2,56 @@ import React, { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { PrincipalProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
-import Exemplo01 from '../components/Exemplo01';
-import Exemplo1 from '../components/Exemplo1';
-import Exemplo05_Text from '../components/Exemplo05_Text';
-import Exemplo06_TextInput from '../components/Exemplo06_TextInput';
-import Exemplo07_Image from '../components/Exemplo07_Image';
-import Notas from '../components/Notas1';
-import Lista from '../components/Lista';
-//Componente chamado TelaPrincipal que recebe 
-//PrincipalProps 
-//como parametro e constrói uma View com o componente 
-//HelloWorld e Exemplo1 dentro
+
 
 const TelaPrincipal = (props: PrincipalProps) => {
 
     return (
         <View style = { [styles.tela, styles.centralizar]} >
-        <Text style={styles.titulo1}>Orion Market</Text>
+        <Text style={styleLocal.titulo1}>Orion Market</Text>
 
-        <Pressable onPress={() => { props.navigation.navigate('TelaNotas', {nota1: 10, nota2: 8, nome: 'Leonardo' }) }}>
-            <Text style={[styleLocal.botaoNav, styleLocal.botaoCadCategoria]}>Tela Notas</Text>
-        </Pressable>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadProduto')}}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCad]}>Cadastrar Produto</Text>
+        </Pressable>    
 
-        <Pressable onPress={() => { props.navigation.navigate('TelaLista', {listapessoas: ['Leonardo'] }) }}>
-            <Text style={[styleLocal.botaoNav, styleLocal.botaoCadProduto]}>Tela Lista</Text>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadFuncionario') }}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCad]}>Cadastrar Funcionário</Text>
         </Pressable>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadCliente')}}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCad]}>Cadastrar Cliente</Text>
+        </Pressable>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadCategoria') }}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCad]}>Cadastrar Categoria</Text>
+        </Pressable>
+        
+        <Pressable onPress={() => { props.navigation.navigate('TelaConsProduto')}}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Produto</Text>
+        </Pressable>    
 
-        <Pressable onPress={() => { 
-            const text = "Default Alert Text"; 
-            props.navigation.navigate('TelaExercicio5', {onClick: (text) => Alert.alert(text)})}}>
-            <Text style={[styleLocal.botaoNav, styleLocal.botaoCadFuncionario]}>Tela Exercicio 5</Text>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadFuncionario') }}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Funcionário</Text>
         </Pressable>
-        <Pressable onPress={() => { props.navigation.navigate('TelaCadCliente') }}>
-            <Text style={[styleLocal.botaoNav, styleLocal.botaoCadCliente]}>Tela Cadastro Cliente</Text>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadCliente')}}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Cliente</Text>
         </Pressable>
-        <Pressable onPress={() => { props.navigation.navigate('TelaCadPaciente', {listapaciente: ['Lista de Espera:'] }) }}>
-            <Text style={[styleLocal.botaoNav, styleLocal.botaoCadCliente]}>Tela Cadastro Paciente</Text>
+        <Pressable onPress={() => { props.navigation.navigate('TelaCadCategoria') }}>
+            <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Categoria</Text>
         </Pressable>
     </View >
   );
 }
 
 
-//exportando o componente TelaPrincipal para ficar visível para outros arquivos
 export default TelaPrincipal;
 
 const styleLocal = StyleSheet.create({
+    titulo1: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'black',
+        marginTop: 20,
+        textAlign: 'center',
+    },
     botaoNav: {
         color: "white",
         justifyContent: 'center',
@@ -59,20 +63,12 @@ const styleLocal = StyleSheet.create({
         borderRadius: 10,
         textAlign: 'center',
     },
-    botaoCadCliente:{
+    botaoTelaCad:{
         backgroundColor: '#0047ab',
         fontSize: 20
     },
-    botaoCadFuncionario:{
-        backgroundColor: '#0047ab',
-        fontSize: 20,
+    botaoTelaCons:{
+        backgroundColor: '#9b111e',
+        fontSize: 20
     },
-    botaoCadProduto:{
-        backgroundColor: '#0047ab',
-        fontSize: 20,
-    },
-    botaoCadCategoria:{
-        backgroundColor: '#0047ab',
-        fontSize: 20,
-    }
 });

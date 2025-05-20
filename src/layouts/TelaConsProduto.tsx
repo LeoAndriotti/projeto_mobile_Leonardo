@@ -7,30 +7,22 @@ import { Produto } from "../types/Produto";
 import { styles } from "../styles/styles";
 
 const TelaConsProduto = (props: ConsProdutoProps) => {
-  //cria a lista de produtos 
   const [produtos, setProdutos] = useState<Produto[]>([]);
 
-  //O useEffect executa a função que for passada como parâmetro
   useEffect(() => {
-    //Buscar os dados da tabela de produtos
     const subscribe = firestore()
       .collection('produtos')
-      .onSnapshot(querySnapshot => { //A cada atualização dos dados no banco de dados é acionado o evento onSnapshot
-        /*
-        Os registros ficam em querySnapshot.docs eles são percorridos usando a função map
-        onde para cada objeto na lista será armazenado o seu valor na variável doc
-        e então executada uma função*/
+      .onSnapshot(querySnapshot => { 
+
         const data = querySnapshot.docs.map(doc => {
-          /*Nessa função estão sendo retornados 1 objeto para cada item da lista de produtos
-          cada objeto está sendo guardado na constante data, formando um array [] */
+         
           return {
             id: doc.id,
-            ...doc.data() //doc.data() está sendo decomposto para colocar os campo de produto lado a lado com o id
+            ...doc.data() 
           }
 
         }) as Produto[];
 
-        //data contém a lista atualizada dos produtos, então é preenchido o state com data para atualizar a FlatList
         setProdutos(data);
       });
 
@@ -49,7 +41,6 @@ const TelaConsProduto = (props: ConsProdutoProps) => {
   }
 
   function alterarNota(id: string) {
-   // props.navigation.navigate("TelaAltProduto", { id: id })
   }
 
   return (

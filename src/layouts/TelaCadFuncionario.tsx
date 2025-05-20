@@ -3,28 +3,33 @@ import { View, Text, Image, Switch, TextInput, Pressable, StyleSheet, Alert } fr
 import { styles } from '../styles/styles';
 import { useState } from "react";
 import  firestore  from '@react-native-firebase/firestore';
-import { CadProdutoProps } from '../navigation/HomeNavigator';
-import { Produto } from '../types/Produto';
+import { CadFuncionarioProps } from '../navigation/HomeNavigator';
+import { Funcionario } from '../types/Funcionario';
 
-const TelaCadProduto = (props: CadProdutoProps) => {
+const TelaCadFuncionario = (props: CadFuncionarioProps) => {
     const [nome, setNome] = useState('');
-    const [codigoBarras, setCodigoBarras] = useState('');
-    const [preco, setPreco] = useState('');
+    const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [matricula, setMatricula] = useState('');
+   
 
   function cadastrar() {
     if (verificaCampos()) {
-      let produto = {
+      let funcionario = {
           nome: nome,
-          codigoBarras: codigoBarras,
-          preco: Number(preco),
-      } as Produto;
+          email: email,
+          telefone: telefone,
+          cpf: cpf,
+          matricula: matricula
+      } as Funcionario;
 
 
       firestore()
-        .collection('produtos')
-        .add(produto)
+        .collection('funcionarios')
+        .add(funcionario)
         .then(() => {
-          Alert.alert(" Produto cadastrado com sucesso!");
+          Alert.alert("Funcionário cadastrado com sucesso!");
           props.navigation.goBack();
         })
         .catch((error) => {
@@ -38,12 +43,20 @@ const TelaCadProduto = (props: CadProdutoProps) => {
             Alert.alert('Nome em branco! Digite um nome!')
             return false;
         }   
-        if(!codigoBarras){
-            Alert.alert('Sem código de barras!')
+        if(!email){
+            Alert.alert('Email em branco! Digite o Email!')
             return false;
         }   
-        if(!preco){
-            Alert.alert('Não foi definido valor!')
+        if(!telefone){
+            Alert.alert('Digite um número de telefone!')
+            return false;
+        }  
+        if(!cpf){
+            Alert.alert('Digite um cpf válido!')
+            return false;
+        }  
+         if(!matricula){
+            Alert.alert('Digite um número de matricula!')
             return false;
         }  
         return true;      
@@ -51,10 +64,10 @@ const TelaCadProduto = (props: CadProdutoProps) => {
 
     return (
         <View style={styles.tela}>
-            <View style={[styles.centralizar, stylesLocal.fundo]}>
-                <Text style={styles.titulo1}>Cadastro de Produtos</Text>
+            <View style={[styles.centralizar, stylesLocal.tela1]}>
+                <Text style={styles.titulo1}>Cadastro de Funcionário</Text>
                 <Image
-                    source={require('../images/produto.png')}
+                    source={require('../images/clientecadastro.png')}
                     style={styles.imagem_200}
                 />
 
@@ -67,25 +80,42 @@ const TelaCadProduto = (props: CadProdutoProps) => {
                         setNome(text);
                     }}
                 />
-                <Text style={styles.titulo3}>Código de Barras:</Text>
+                <Text style={styles.titulo3}>E-mail:</Text>
                 <TextInput
-                    value={codigoBarras}
+                    value={email}
                     style={[styles.caixa_texto, styles.largura_70]}
-                    placeholder='Código de Barras'
+                    placeholder='E-mail'
                     onChangeText={(text1) => { 
-                        setCodigoBarras(text1);
+                        setEmail(text1);
                     }}
                 />
-                <Text style={styles.titulo3}>Preço:</Text>
+                <Text style={styles.titulo3}>Telefone:</Text>
                 <TextInput
-                    value={preco}
+                    value={telefone}
                     style={[styles.caixa_texto, styles.largura_70]}
-                    placeholder='Preço'
+                    placeholder='Telefone'
                     onChangeText={(text2) => { 
-                        setPreco(text2);
+                        setTelefone(text2);
                     }}
                 />
-                
+                <Text style={styles.titulo3}>CPF</Text>
+                <TextInput
+                    value={cpf}
+                    style={[styles.caixa_texto, styles.largura_70]}
+                    placeholder='CPF'
+                    onChangeText={(text3) => { 
+                        setCpf(text3);
+                    }}
+                />
+                 <Text style={styles.titulo3}>Matrícula</Text>
+                <TextInput
+                    value={matricula}
+                    style={[styles.caixa_texto, styles.largura_70]}
+                    placeholder='Matricula'
+                    onChangeText={(text4) => { 
+                        setMatricula(text4);
+                    }}
+                />
             </View>
             <View style={stylesLocal.botoes}>
                 <Pressable
@@ -103,9 +133,13 @@ const TelaCadProduto = (props: CadProdutoProps) => {
         </View>
     );
 }
-export default TelaCadProduto;
+export default TelaCadFuncionario;
 
 const stylesLocal = StyleSheet.create({
+    tela1: {
+        backgroundColor: '#808080',
+        flex: 4,
+    },
     tituloRadio: {
         fontSize: 25,
         fontWeight: 'bold',

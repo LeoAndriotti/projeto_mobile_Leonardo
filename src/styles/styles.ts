@@ -26,18 +26,20 @@ const styles = StyleSheet.create({
     titulo1: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'white',
         marginTop: 20,
+        textAlign: 'center',
     },
     titulo2: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: 'black'
+        color: 'white'
     },
     titulo3: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'black'
+        color: 'white',
+        textAlign: 'center',
     },
     botao: {
         justifyContent: 'center',
@@ -76,13 +78,14 @@ const styles = StyleSheet.create({
     },
 
     largura_70: {
-        width: '70%'
+        width: '70%',
+        marginLeft: 60,
     },
 
     imagem_200: {
         width: 100,
         height: 100,
-        marginLeft: 270,
+        marginLeft: 150,
     },
 
     card:{

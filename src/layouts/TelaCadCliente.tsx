@@ -26,10 +26,10 @@ const TelaCadCliente = (props: CadClienteProps) => {
 
 
       firestore()
-        .collection('produtos')
+        .collection('clientes')
         .add(cliente)
         .then(() => {
-          Alert.alert(" Cliente adastrado com sucesso!");
+          Alert.alert(" Cliente cadastrado com sucesso!");
           props.navigation.goBack();
         })
         .catch((error) => {
@@ -59,7 +59,7 @@ const TelaCadCliente = (props: CadClienteProps) => {
             <View style={[styles.centralizar, stylesLocal.fundo]}>
                 <Text style={styles.titulo1}>Cadastro de Cliente</Text>
                 <Image
-                    source={require('../images/clientecadastro.png')}
+                    source={require('../images/user.png')}
                     style={styles.imagem_200}
                 />
 
@@ -96,11 +96,11 @@ const TelaCadCliente = (props: CadClienteProps) => {
                     style={[styles.caixa_texto, styles.largura_70]}
                     placeholder='CPF'
                     onChangeText={(text3) => { 
-                        setEmail(text3);
+                        setCpf(text3);
                     }}
                 />
                 <Text style={stylesLocal.tituloRadio}>Faz parte do clube?</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#D3D3D3', padding: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#808080', padding: 20 }}>
                 <Switch 
                 value={clube === 'sim'} 
                 onValueChange={(value)=>{setAtivado(value ? 'sim' : 'nao') }} 
@@ -129,7 +129,7 @@ const stylesLocal = StyleSheet.create({
     tituloRadio: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'white',
         textAlign: 'center',
         marginTop: 25,
     },
@@ -142,12 +142,12 @@ const stylesLocal = StyleSheet.create({
         textAlign: 'center',
     },
     fundo: {
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#808080',
     },
     botoes: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#808080',
         flex: 1,
     },
     botaoCancelar: {

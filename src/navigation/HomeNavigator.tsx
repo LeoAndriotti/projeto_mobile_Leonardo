@@ -1,21 +1,22 @@
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack";
 import TelaPrincipal from "../layouts/TelaPrincipal";
-import TelaNova from "../layouts/TelaNova";
-import TelaNotas from "../layouts/TelaNotas";
 import TelaLista from "../layouts/TelaLista";
-import TelaExercicio5 from "../layouts/TelaExercicio5";
 import TelaCadCliente from "../layouts/TelaCadCliente";
-import TelaCadPaciente from "../layouts/TelaCadPaciente";
+import TelaCadFuncionario from "../layouts/TelaCadFuncionario";
+import TelaCadProduto from "../layouts/TelaCadProduto";
+import TelaCadCategoria from "../layouts/TelaCadCategoria";
+import TelaConsProduto from "../layouts/TelaConsProduto";
 
 //Define quais as telas e os parâmetros de cada tela
 type RootStackParamList = {
   TelaPrincipal: undefined; 
-  TelaNova: undefined;
-  TelaNotas:{nota1 : number, nota2: number, nome : string};
-  TelaExercicio5: {onClick:(text: string) => void};
   TelaLista:{listapessoas : string[]};
   TelaCadCliente: undefined;
-  TelaCadPaciente: {listapaciente: string[]};
+  TelaCadFuncionario: undefined;
+  TelaCadProduto: undefined;
+  TelaCadCategoria: undefined;
+  TelaConsProduto: undefined;
+  TelaConsCliente: undefined;
 
 };
 
@@ -33,12 +34,13 @@ const HomeNavigator = () => {
 
       {/* define uma te la dando um nome(igual ao RootStackParamList) e qual o componente será carregado */}
       <Stack.Screen name="TelaPrincipal" component={TelaPrincipal} />
-      <Stack.Screen name="TelaNova" component={TelaNova} />
-      <Stack.Screen name="TelaNotas" component={TelaNotas} />
-      <Stack.Screen name="TelaExercicio5" component={TelaExercicio5} />
       <Stack.Screen name="TelaLista" component={TelaLista} />
       <Stack.Screen name="TelaCadCliente" component={TelaCadCliente} />
-      <Stack.Screen name="TelaCadPaciente" component={TelaCadPaciente} />
+      <Stack.Screen name="TelaCadFuncionario" component={TelaCadFuncionario} />
+      <Stack.Screen name="TelaCadProduto" component={TelaCadProduto} />
+      <Stack.Screen name="TelaCadCategoria" component={TelaCadCategoria} />
+      <Stack.Screen name="TelaConsProduto" component={TelaConsProduto} />
+
 
     </Stack.Navigator>
   );
@@ -49,23 +51,26 @@ const HomeNavigator = () => {
 type PrincipalProps = NativeStackScreenProps<RootStackParamList,
   'TelaPrincipal'>;
 
-  type NovaProps = NativeStackScreenProps<RootStackParamList,
-  'TelaNova'>;
-
-   type Notasprops = NativeStackScreenProps<RootStackParamList,
-  'TelaNotas'>;
-
-   type Exe5props = NativeStackScreenProps<RootStackParamList,
-  'TelaExercicio5'>;
-
   type Listaprops = NativeStackScreenProps<RootStackParamList,
   'TelaLista'>;
 
    type CadClienteProps = NativeStackScreenProps<RootStackParamList,
   'TelaCadCliente'>;
   
-   type CadPacienteProps = NativeStackScreenProps<RootStackParamList,
-  'TelaCadPaciente'>;
+   type CadFuncionarioProps = NativeStackScreenProps<RootStackParamList,
+  'TelaCadFuncionario'>;
+
+    type CadProdutoProps = NativeStackScreenProps<RootStackParamList,
+  'TelaCadProduto'>;
+
+  type CadCategoriaProps = NativeStackScreenProps<RootStackParamList,
+  'TelaCadCategoria'>;
+
+  type ConsProdutoProps = NativeStackScreenProps<RootStackParamList,
+  'TelaConsProduto'>;
+
+  type ConsClienteProps = NativeStackScreenProps<RootStackParamList,
+  'TelaConsCliente'>;
 
 
 //exporta o navegador da pilha para ficar visível para outros arquivos    
@@ -74,10 +79,11 @@ export default HomeNavigator;
 //exporta os tipos de dados para ficar visível para outros arquivos
 export type {
   PrincipalProps,
-  NovaProps,
-  Notasprops,
-  Exe5props,
   Listaprops,
   CadClienteProps,
-  CadPacienteProps
+  CadFuncionarioProps,
+  CadProdutoProps,
+  CadCategoriaProps,
+  ConsProdutoProps,
+  ConsClienteProps
 };
