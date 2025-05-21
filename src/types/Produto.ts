@@ -3,6 +3,7 @@ type Produto = {
     nome: string,
     codigoBarras: string,
     preco: number,
+    categorias: string[],
       
 }
 

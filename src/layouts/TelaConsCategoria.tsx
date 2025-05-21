@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import { Alert, Pressable, FlatList, StyleSheet, Text, View } from "react-native";
 
 import firestore from "@react-native-firebase/firestore";
-import { ConsClienteProps } from "../navigation/HomeNavigator";
+import { ConsCategoriasProps } from "../navigation/HomeNavigator";
 import { styles } from "../styles/styles";
-import { Cliente } from "../types/Cliente";
+import { Categoria } from "../types/Categorias";
 
-const TelaConsCliente = (props: ConsClienteProps) => {
-  const [clientes, setProdutos] = useState<Cliente[]>([]);
+const TelaConsCategoria = (props: ConsCategoriasProps) => {
+  const [categorias, setProdutos] = useState<Categoria[]>([]);
 
   useEffect(() => {
     const subscribe = firestore()
-      .collection('clientes')
+      .collection('categorias')
       .onSnapshot(querySnapshot => { 
 
         const data = querySnapshot.docs.map(doc => {
@@ -21,7 +21,7 @@ const TelaConsCliente = (props: ConsClienteProps) => {
             ...doc.data() 
           }
 
-        }) as Cliente[];
+        }) as Categoria[];
 
         setProdutos(data);
       });
@@ -29,13 +29,13 @@ const TelaConsCliente = (props: ConsClienteProps) => {
     return () => subscribe();
   }, []);
 
-  function deletarCliente(id: string) {
+  function deletarCategoria(id: string) {
     firestore()
-      .collection('clientes')
+      .collection('categorias')
       .doc(id)
       .delete()
       .then(() => {
-        Alert.alert("Cliente", "Removido com sucesso")
+        Alert.alert("Categoria", "Removido com sucesso")
       })
       .catch((error) => console.log(error));
   }
@@ -46,14 +46,14 @@ const TelaConsCliente = (props: ConsClienteProps) => {
   return (
     <View style={styles.tela}>
 
-      <Text style={styles.tituloTela}>Lista de Clientes</Text>
+      <Text style={styles.tituloTela}>Lista de Categorias</Text>
       <FlatList
-        data={clientes}
+        data={categorias}
         renderItem={(info) =>
-          <ItemClientes
+          <ItemCategoria
             numeroOrdem={info.index + 1}
-            cli={info.item}
-            onDeletar={deletarCliente}
+            cat={info.item}
+            onDeletar={deletarCategoria}
             onAlterar={alterarNota} />} />
 
 
@@ -69,35 +69,23 @@ const TelaConsCliente = (props: ConsClienteProps) => {
   );
 }
 
-type ItemClienteProps = {
+type ItemCategoriasProps = {
   numeroOrdem: number;
-  cli: Cliente;
+  cat: Categoria;
   onDeletar: (id: string) => void;
   onAlterar: (id: string) => void;
 }
 
-const ItemClientes = (props: ItemClienteProps) => {
+const ItemCategoria = (props: ItemCategoriasProps) => {
 
   return (
     <View style={styles.card}>
       <View style={styles_local.dados_card}>
         <Text style={{ fontSize: 30, color: 'black' }}>
-          {props.numeroOrdem + ' - ' + props.cli.nome}
+          {props.numeroOrdem + ' - ' + props.cat.nome}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          Id:{props.cli.id}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          E-mail:{props.cli.email}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          Telefone:{props.cli.telefone}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          CPF: {props.cli.cpf}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          Clube: {props.cli.clube}
+          Id:{props.cat.id}
         </Text>
       </View>
 
@@ -105,7 +93,7 @@ const ItemClientes = (props: ItemClienteProps) => {
         style={styles_local.botoes_card}>
         <View style={styles_local.botao_deletar}>
           <Pressable
-            onPress={() => props.onDeletar(props.cli.id)}>
+            onPress={() => props.onDeletar(props.cat.id)}>
             <Text style={styles_local.texto_botao_card}>
               X
             </Text>
@@ -114,7 +102,7 @@ const ItemClientes = (props: ItemClienteProps) => {
 
         <View style={styles_local.botao_alterar}>
           <Pressable
-            onPress={() => props.onAlterar(props.cli.id)}>
+            onPress={() => props.onAlterar(props.cat.id)}>
             <Text style={styles_local.texto_botao_card}>
               A
             </Text>
@@ -125,7 +113,7 @@ const ItemClientes = (props: ItemClienteProps) => {
   );
 }
 
-export default TelaConsCliente;
+export default TelaConsCategoria;
 
 const styles_local = StyleSheet.create({
   card: {

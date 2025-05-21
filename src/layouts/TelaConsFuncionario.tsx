@@ -2,63 +2,63 @@ import { useState, useEffect } from "react";
 import { Alert, Pressable, FlatList, StyleSheet, Text, View } from "react-native";
 
 import firestore from "@react-native-firebase/firestore";
-import { ConsClienteProps } from "../navigation/HomeNavigator";
+import { ConsFuncionarioProps } from "../navigation/HomeNavigator";
 import { styles } from "../styles/styles";
-import { Cliente } from "../types/Cliente";
+import { Funcionario } from "../types/Funcionario";
 
-const TelaConsCliente = (props: ConsClienteProps) => {
-  const [clientes, setProdutos] = useState<Cliente[]>([]);
+const TelaConsFuncionario = (props: ConsFuncionarioProps) => {
+  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
 
   useEffect(() => {
     const subscribe = firestore()
-      .collection('clientes')
+      .collection('funcionarios')
       .onSnapshot(querySnapshot => { 
 
         const data = querySnapshot.docs.map(doc => {
-         
           return {
             id: doc.id,
-            ...doc.data() 
-          }
+            ...doc.data()
+          } as Funcionario;
+        });
 
-        }) as Cliente[];
-
-        setProdutos(data);
+        setFuncionarios(data);
       });
 
     return () => subscribe();
   }, []);
 
-  function deletarCliente(id: string) {
+  function deletarFuncionario(id: string) {
     firestore()
-      .collection('clientes')
+      .collection('funcionarios')
       .doc(id)
       .delete()
       .then(() => {
-        Alert.alert("Cliente", "Removido com sucesso")
+        Alert.alert("Funcionário", "Removido com sucesso");
       })
       .catch((error) => console.log(error));
   }
 
-  function alterarNota(id: string) {
+  function alterarFuncionario(func: Funcionario) {
+    // Navega para a tela de alteração, enviando o objeto func
+    props.navigation.navigate('TelaAltFuncionario', { funcionario: func });
   }
 
   return (
     <View style={styles.tela}>
 
-      <Text style={styles.tituloTela}>Lista de Clientes</Text>
+      <Text style={styles.tituloTela}>Lista de Funcionários</Text>
       <FlatList
-        data={clientes}
-        renderItem={(info) =>
-          <ItemClientes
-            numeroOrdem={info.index + 1}
-            cli={info.item}
-            onDeletar={deletarCliente}
-            onAlterar={alterarNota} />} />
+        data={funcionarios}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item, index }) =>
+          <ItemFuncionario
+            numeroOrdem={index + 1}
+            func={item}
+            onDeletar={deletarFuncionario}
+            onAlterar={alterarFuncionario} />}
+      />
 
-
-      <View
-        style={styles.centralizar}>
+      <View style={styles.centralizar}>
         <Pressable
           style={[styles.botao, { width: '40%' }]}
           onPress={() => { props.navigation.goBack() }}>
@@ -69,55 +69,50 @@ const TelaConsCliente = (props: ConsClienteProps) => {
   );
 }
 
-type ItemClienteProps = {
+type ItemFuncionarioProps = {
   numeroOrdem: number;
-  cli: Cliente;
+  func: Funcionario;
   onDeletar: (id: string) => void;
-  onAlterar: (id: string) => void;
+  onAlterar: (func: Funcionario) => void;
 }
 
-const ItemClientes = (props: ItemClienteProps) => {
+const ItemFuncionario = (props: ItemFuncionarioProps) => {
 
   return (
     <View style={styles.card}>
       <View style={styles_local.dados_card}>
         <Text style={{ fontSize: 30, color: 'black' }}>
-          {props.numeroOrdem + ' - ' + props.cli.nome}
+          {props.numeroOrdem + ' - ' + props.func.nome}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          Id:{props.cli.id}
+          Id: {props.func.id}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          E-mail:{props.cli.email}
+          E-mail: {props.func.email}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          Telefone:{props.cli.telefone}
+          Telefone: {props.func.telefone}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          CPF: {props.cli.cpf}
+          CPF: {props.func.cpf}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          Clube: {props.cli.clube}
+          Matrícula: {props.func.matricula}
         </Text>
       </View>
 
-      <View
-        style={styles_local.botoes_card}>
+      <View style={styles_local.botoes_card}>
         <View style={styles_local.botao_deletar}>
           <Pressable
-            onPress={() => props.onDeletar(props.cli.id)}>
-            <Text style={styles_local.texto_botao_card}>
-              X
-            </Text>
+            onPress={() => props.onDeletar(props.func.id)}>
+            <Text style={styles_local.texto_botao_card}>X</Text>
           </Pressable>
         </View>
 
         <View style={styles_local.botao_alterar}>
           <Pressable
-            onPress={() => props.onAlterar(props.cli.id)}>
-            <Text style={styles_local.texto_botao_card}>
-              A
-            </Text>
+            onPress={() => props.onAlterar(props.func)}>
+            <Text style={styles_local.texto_botao_card}>A</Text>
           </Pressable>
         </View>
       </View>
@@ -125,7 +120,7 @@ const ItemClientes = (props: ItemClienteProps) => {
   );
 }
 
-export default TelaConsCliente;
+export default TelaConsFuncionario;
 
 const styles_local = StyleSheet.create({
   card: {
@@ -151,7 +146,7 @@ const styles_local = StyleSheet.create({
     alignItems: 'center',
   },
   botao_alterar: {
-    backgroundColor: 'yellow',
+    backgroundColor: 'green',
     width: 40,
     justifyContent: 'center',
     alignItems: 'center',

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Alert, Pressable, FlatList, StyleSheet, Text, View } from "react-native";
-
+import { Alert, Pressable, FlatList, Text, View, StyleSheet } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { ConsProdutoProps } from "../navigation/HomeNavigator";
 import { Produto } from "../types/Produto";
@@ -12,17 +11,11 @@ const TelaConsProduto = (props: ConsProdutoProps) => {
   useEffect(() => {
     const subscribe = firestore()
       .collection('produtos')
-      .onSnapshot(querySnapshot => { 
-
-        const data = querySnapshot.docs.map(doc => {
-         
-          return {
-            id: doc.id,
-            ...doc.data() 
-          }
-
-        }) as Produto[];
-
+      .onSnapshot(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Produto[];
         setProdutos(data);
       });
 
@@ -35,89 +28,86 @@ const TelaConsProduto = (props: ConsProdutoProps) => {
       .doc(id)
       .delete()
       .then(() => {
-        Alert.alert("Produto", "Removido com sucesso")
+        Alert.alert("Produto", "Removido com sucesso");
       })
-      .catch((error) => console.log(error));
-  }
-
-  function alterarNota(id: string) {
+      .catch((error) => {
+        Alert.alert("Erro", "Não foi possível remover o produto");
+        console.log(error);
+      });
   }
 
   return (
     <View style={styles.tela}>
-
-      <Text style={styles.tituloTela}>Listagem de Produtos</Text>
+      <Text style={styles.tituloTela}>Lista de Produtos</Text>
       <FlatList
         data={produtos}
-        renderItem={(info) =>
+        keyExtractor={item => item.id}
+        renderItem={({ item, index }) => (
           <ItemProduto
-            numeroOrdem={info.index + 1}
-            prod={info.item}
+            numeroOrdem={index + 1}
+            prod={item}
             onDeletar={deletarProduto}
-            onAlterar={alterarNota} />} />
+            navigation={props.navigation}
+          />
+        )}
+      />
 
-
-      <View
-        style={styles.centralizar}>
+      <View style={styles.centralizar}>
         <Pressable
           style={[styles.botao, { width: '40%' }]}
-          onPress={() => { props.navigation.goBack() }}>
+          onPress={() => props.navigation.goBack()}>
           <Text style={styles.texto_botao}>Voltar</Text>
         </Pressable>
       </View>
     </View>
   );
-}
+};
 
 type ItemProdutoProps = {
   numeroOrdem: number;
   prod: Produto;
   onDeletar: (id: string) => void;
-  onAlterar: (id: string) => void;
-}
+  navigation: ConsProdutoProps['navigation'];
+};
 
 const ItemProduto = (props: ItemProdutoProps) => {
-
   return (
-    <View style={styles.card}>
+    <View style={styles_local.card}>
       <View style={styles_local.dados_card}>
         <Text style={{ fontSize: 30, color: 'black' }}>
           {props.numeroOrdem + ' - ' + props.prod.nome}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          Id:{props.prod.id}
+          Id: {props.prod.id}
         </Text>
         <Text style={{ fontSize: 20 }}>
-          Código de Barras:{props.prod.codigoBarras}
+          Código de Barras: {props.prod.codigoBarras}
         </Text>
         <Text style={{ fontSize: 20 }}>
           Preço: R${props.prod.preco.toFixed(2)}
         </Text>
+        <Text style={{ fontSize: 20 }}>
+          Categoria: {props.prod.categorias.join(" / ")}
+        </Text>
       </View>
 
-      <View
-        style={styles_local.botoes_card}>
+      <View style={styles_local.botoes_card}>
         <View style={styles_local.botao_deletar}>
-          <Pressable
-            onPress={() => props.onDeletar(props.prod.id)}>
-            <Text style={styles_local.texto_botao_card}>
-              X
-            </Text>
+          <Pressable onPress={() => props.onDeletar(props.prod.id)}>
+            <Text style={styles_local.texto_botao_card}>X</Text>
           </Pressable>
         </View>
 
         <View style={styles_local.botao_alterar}>
           <Pressable
-            onPress={() => props.onAlterar(props.prod.id)}>
-            <Text style={styles_local.texto_botao_card}>
-              A
-            </Text>
+            onPress={() => props.navigation.navigate('TelaAltProduto', { produto: props.prod })}>
+            <Text style={styles_local.texto_botao_card}>A</Text>
           </Pressable>
         </View>
       </View>
     </View>
   );
-}
+};
 
 export default TelaConsProduto;
 
@@ -129,14 +119,14 @@ const styles_local = StyleSheet.create({
     borderRadius: 10,
     padding: 3,
     flexDirection: 'row',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   dados_card: {
-    flex: 1
+    flex: 1,
   },
   botoes_card: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   botao_deletar: {
     backgroundColor: 'red',
@@ -145,7 +135,7 @@ const styles_local = StyleSheet.create({
     alignItems: 'center',
   },
   botao_alterar: {
-    backgroundColor: 'yellow',
+    backgroundColor: 'green',
     width: 40,
     justifyContent: 'center',
     alignItems: 'center',
@@ -153,6 +143,6 @@ const styles_local = StyleSheet.create({
   texto_botao_card: {
     fontWeight: "bold",
     fontSize: 40,
-    color: 'black'
-  }
+    color: 'black',
+  },
 });

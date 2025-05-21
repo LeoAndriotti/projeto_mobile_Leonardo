@@ -28,13 +28,13 @@ const TelaPrincipal = (props: PrincipalProps) => {
             <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Produto</Text>
         </Pressable>    
 
-        <Pressable onPress={() => { props.navigation.navigate('TelaCadFuncionario') }}>
+        <Pressable onPress={() => { props.navigation.navigate('TelaConsFuncionario') }}>
             <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Funcionário</Text>
         </Pressable>
-        <Pressable onPress={() => { props.navigation.navigate('TelaCadCliente')}}>
+        <Pressable onPress={() => { props.navigation.navigate('TelaConsCliente')}}>
             <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Cliente</Text>
         </Pressable>
-        <Pressable onPress={() => { props.navigation.navigate('TelaCadCategoria') }}>
+        <Pressable onPress={() => { props.navigation.navigate('TelaConsCategoria') }}>
             <Text style={[styleLocal.botaoNav, styleLocal.botaoTelaCons]}>Consultar Categoria</Text>
         </Pressable>
     </View >
