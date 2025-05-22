@@ -18,9 +18,7 @@ const TelaAltProduto = (props: AltProdutoProps) => {
   const [codigoBarras, setCodigoBarras] = useState('');
   const [preco, setPreco] = useState('');
 
-  // Lista de categorias disponíveis no Firestore
   const [categorias, setCategorias] = useState<Categoria[]>([]);
-  // Categorias selecionadas para o produto (ids)
   const [categoriasSelecionadas, setCategoriasSelecionadas] = useState<string[]>([]);
 
   async function carregar() {
@@ -39,7 +37,6 @@ const TelaAltProduto = (props: AltProdutoProps) => {
       setCodigoBarras(produto.codigoBarras);
       setPreco(produto.preco.toFixed(2));
 
-      // Se o produto já tem categorias, setar como selecionadas
       setCategoriasSelecionadas(produto.categorias || []);
 
     } catch (error) {
@@ -48,7 +45,7 @@ const TelaAltProduto = (props: AltProdutoProps) => {
     }
   }
 
-  // Carrega as categorias disponíveis
+
   async function carregarCategorias() {
     try {
       const resultado = await firestore()
@@ -72,7 +69,6 @@ const TelaAltProduto = (props: AltProdutoProps) => {
     carregarCategorias();
   }, []);
 
-  // Alterna seleção da categoria (add/remove do array)
   function toggleCategoria(id: string) {
     if (categoriasSelecionadas.includes(id)) {
       setCategoriasSelecionadas(categoriasSelecionadas.filter(catId => catId !== id));

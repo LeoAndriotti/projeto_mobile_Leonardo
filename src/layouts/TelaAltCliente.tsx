@@ -1,42 +1,44 @@
 import { useEffect, useState } from "react";
-import { Alert, Pressable, Text, TextInput, View, FlatList } from "react-native";
+import { Alert, Pressable, Text, TextInput, View, FlatList, StyleSheet, Switch } from "react-native";
 import firestore from "@react-native-firebase/firestore";
-import { Funcionario } from "../types/Funcionario";
-import { AltFuncionarioProps } from "../navigation/HomeNavigator";
+import { Cliente } from "../types/Cliente";
+import { AltClienteProps } from "../navigation/HomeNavigator";
 import { styles } from "../styles/styles";
+import React from "react";
 
 
 
-const TelaAltFuncionario = (props: AltFuncionarioProps) => {
-    const funcionarioParam = props.route.params.funcionario;
+const TelaAltCliente = (props: AltClienteProps) => {
+    const funcionarioParam = props.route.params.cliente;
 
     const [id] = useState(funcionarioParam.id);
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
     const [cpf, setCpf] = useState('');
-    const [matricula, setMatricula] = useState('');
+    const [clube, setAtivado] = useState('nao');
+    const [checked, setChecked] = React.useState('first');
 
     async function carregar() {
         try {
             const resultado = await firestore()
-                .collection('funcionarios')
+                .collection('clientes')
                 .doc(id)
                 .get();
 
-            const funcionario = {
+            const cliente = {
                 id: resultado.id,
                 ...resultado.data()
-            } as Funcionario;
+            } as Cliente;
 
-            setNome(funcionario.nome);
-            setEmail(funcionario.email);
-            setTelefone(funcionario.telefone);
-            setCpf(funcionario.cpf);
-            setMatricula(funcionario.matricula);
+            setNome(cliente.nome);
+            setEmail(cliente.email);
+            setTelefone(cliente.telefone);
+            setCpf(cliente.cpf);
+            setAtivado(cliente.clube);
 
         } catch (error) {
-            Alert.alert('Erro', 'Não foi possível carregar o funcionario');
+            Alert.alert('Erro', 'Não foi possível carregar o cliente');
             console.log(error);
         }
     }
@@ -49,25 +51,25 @@ const TelaAltFuncionario = (props: AltFuncionarioProps) => {
     function alterar() {
         if (!verificaCampos()) return;
 
-        const funcionario: Funcionario = {
+        const cliente: Cliente = {
             id,
             nome,
             email,
             telefone,
             cpf,
-            matricula
+            clube
         };
 
         firestore()
-            .collection('funcionarios')
+            .collection('clientes')
             .doc(id)
-            .update(funcionario)
+            .update(cliente)
             .then(() => {
-                Alert.alert("Funcionario", "Alterado com sucesso");
+                Alert.alert("Cliente", "Alterado com sucesso");
                 props.navigation.goBack();
             })
             .catch((error) => {
-                Alert.alert('Erro', 'Não foi possível alterar o funcionario');
+                Alert.alert('Erro', 'Não foi possível alterar o cliente');
                 console.log(error);
             });
     }
@@ -89,17 +91,14 @@ const TelaAltFuncionario = (props: AltFuncionarioProps) => {
             Alert.alert('Digite um cpf válido!')
             return false;
         }
-        if (!matricula) {
-            Alert.alert('Digite um número de matricula!')
-            return false;
-        }
+
 
         return true;
     }
 
     return (
         <View style={styles.tela}>
-            <Text style={styles.tituloTela}>Alteração de Funcionario</Text>
+            <Text style={styles.tituloTela}>Alteração de Cliente</Text>
 
             <Text style={styles.titulo_campos}>Nome</Text>
             <TextInput
@@ -135,15 +134,13 @@ const TelaAltFuncionario = (props: AltFuncionarioProps) => {
                     setCpf(text3);
                 }}
             />
-            <Text style={styles.titulo3}>Matrícula</Text>
-            <TextInput
-                value={matricula}
-                style={[styles.caixa_texto, styles.largura_70]}
-                placeholder='Matricula'
-                onChangeText={(text4) => {
-                    setMatricula(text4);
-                }}
-            />
+            <Text style={stylesLocal.tituloRadio}>Faz parte do clube?</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#gray', padding: 20 }}>
+                <Switch
+                    value={clube === 'sim'}
+                    onValueChange={(value) => { setAtivado(value ? 'sim' : 'nao') }}
+                />
+            </View>
 
             <View style={styles.centralizar}>
                 <Pressable style={styles.botao} onPress={alterar}>
@@ -158,4 +155,13 @@ const TelaAltFuncionario = (props: AltFuncionarioProps) => {
     );
 };
 
-export default TelaAltFuncionario;
+export default TelaAltCliente;
+const stylesLocal = StyleSheet.create({
+    tituloRadio: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'center',
+        marginTop: 25,
+    },
+});

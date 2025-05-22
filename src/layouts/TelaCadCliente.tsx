@@ -47,6 +47,10 @@ const TelaCadCliente = (props: CadClienteProps) => {
             Alert.alert('Email em branco! Digite o Email!')
             return false;
         }   
+        if(!cpf){
+            Alert.alert('Digite um cpf válido!')
+            return false;
+        }  
         if(!telefone){
             Alert.alert('Digite um número de telefone!')
             return false;
@@ -100,7 +104,7 @@ const TelaCadCliente = (props: CadClienteProps) => {
                     }}
                 />
                 <Text style={stylesLocal.tituloRadio}>Faz parte do clube?</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#808080', padding: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#f2f2f2', padding: 20 }}>
                 <Switch 
                 value={clube === 'sim'} 
                 onValueChange={(value)=>{setAtivado(value ? 'sim' : 'nao') }} 
@@ -129,7 +133,7 @@ const stylesLocal = StyleSheet.create({
     tituloRadio: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: 'white',
+        color: 'black',
         textAlign: 'center',
         marginTop: 25,
     },
@@ -142,23 +146,23 @@ const stylesLocal = StyleSheet.create({
         textAlign: 'center',
     },
     fundo: {
-        backgroundColor: '#808080',
+        backgroundColor: '#f2f2f2',
     },
     botoes: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        backgroundColor: '#808080',
+        backgroundColor: '#f2f2f2',
         flex: 1,
     },
     botaoCancelar: {
-        backgroundColor: 'red',
+        backgroundColor: '#e63946',
         alignItems: 'center',
         borderRadius: 5,
         height: 50,
         justifyContent: 'center'
     },
     botaoCadastrar: {
-        backgroundColor: 'green',
+        backgroundColor: '#2a9d8f',
         alignItems: 'center',
         borderRadius: 5,
         height: 50,

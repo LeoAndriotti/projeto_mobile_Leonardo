@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
 
-//o StyleSheet é a folha de estilo, equivalente ao css
 const styles = StyleSheet.create({
     tela: {
         flex: 4, 
-       backgroundColor: '#gray' 
+       backgroundColor: '#f2f2f2',
     },
     margem: {
         margin: 10
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
     titulo1: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: 'white',
+        color: 'black',
         marginTop: 20,
         textAlign: 'center',
     },
@@ -38,14 +37,14 @@ const styles = StyleSheet.create({
     titulo3: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'white',
+        color: 'black',
         textAlign: 'center',
     },
     botao: {
         justifyContent: 'center',
         alignItems:'center',
         width: 'auto',
-        backgroundColor: 'green',
+        backgroundColor: '#2a9d8f',
         paddingVertical: 10,
         paddingHorizontal: 30,
         marginTop: 20,
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     botao_vermelho: {
       justifyContent: 'center',
       alignItems:'center',
-      backgroundColor: 'red',
+      backgroundColor: '#e63946',
       paddingVertical: 10,
       paddingHorizontal: 30,
       marginTop: 20,
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     },
     texto_botao: {
         fontSize: 20,
-        color: 'white'
+        color: 'white',
     },
     titulo_campos: {
       fontSize: 20,

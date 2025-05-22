@@ -7,23 +7,20 @@ import { styles } from "../styles/styles";
 import { Cliente } from "../types/Cliente";
 
 const TelaConsCliente = (props: ConsClienteProps) => {
-  const [clientes, setProdutos] = useState<Cliente[]>([]);
+  const [clientes, setClientes] = useState<Cliente[]>([]);
 
   useEffect(() => {
     const subscribe = firestore()
       .collection('clientes')
-      .onSnapshot(querySnapshot => { 
-
+      .onSnapshot(querySnapshot => {
         const data = querySnapshot.docs.map(doc => {
-         
           return {
             id: doc.id,
-            ...doc.data() 
-          }
+            ...doc.data()
+          } as Cliente;
+        });
 
-        }) as Cliente[];
-
-        setProdutos(data);
+        setClientes(data);
       });
 
     return () => subscribe();
@@ -35,130 +32,126 @@ const TelaConsCliente = (props: ConsClienteProps) => {
       .doc(id)
       .delete()
       .then(() => {
-        Alert.alert("Cliente", "Removido com sucesso")
+        Alert.alert("Cliente", "Removido com sucesso");
       })
       .catch((error) => console.log(error));
   }
 
-  function alterarNota(id: string) {
+  function alterarCliente(cli: Cliente) {
+    props.navigation.navigate('TelaAltCliente', { cliente: cli });
   }
 
   return (
     <View style={styles.tela}>
-
       <Text style={styles.tituloTela}>Lista de Clientes</Text>
+
       <FlatList
         data={clientes}
-        renderItem={(info) =>
-          <ItemClientes
-            numeroOrdem={info.index + 1}
-            cli={info.item}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item, index }) => (
+          <ItemCliente
+            numeroOrdem={index + 1}
+            cli={item}
             onDeletar={deletarCliente}
-            onAlterar={alterarNota} />} />
+            onAlterar={alterarCliente}
+          />
+        )}
+      />
 
-
-      <View
-        style={styles.centralizar}>
+      <View style={styles.centralizar}>
         <Pressable
           style={[styles.botao, { width: '40%' }]}
-          onPress={() => { props.navigation.goBack() }}>
+          onPress={() => props.navigation.goBack()}>
           <Text style={styles.texto_botao}>Voltar</Text>
         </Pressable>
       </View>
     </View>
   );
-}
+};
 
 type ItemClienteProps = {
   numeroOrdem: number;
   cli: Cliente;
   onDeletar: (id: string) => void;
-  onAlterar: (id: string) => void;
-}
+  onAlterar: (cli: Cliente) => void;
+};
 
-const ItemClientes = (props: ItemClienteProps) => {
-
+const ItemCliente = ({ numeroOrdem, cli, onDeletar, onAlterar }: ItemClienteProps) => {
   return (
-    <View style={styles.card}>
-      <View style={styles_local.dados_card}>
-        <Text style={{ fontSize: 30, color: 'black' }}>
-          {props.numeroOrdem + ' - ' + props.cli.nome}
+    <View style={stylesLocal.card}>
+      <View style={stylesLocal.dados_card}>
+        <Text style={stylesLocal.nome_cliente}>
+          {numeroOrdem + ' - ' + cli.nome}
         </Text>
-        <Text style={{ fontSize: 20 }}>
-          Id:{props.cli.id}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          E-mail:{props.cli.email}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          Telefone:{props.cli.telefone}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          CPF: {props.cli.cpf}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          Clube: {props.cli.clube}
-        </Text>
+        <Text style={stylesLocal.info}>ID: {cli.id}</Text>
+        <Text style={stylesLocal.info}>E-mail: {cli.email}</Text>
+        <Text style={stylesLocal.info}>Telefone: {cli.telefone}</Text>
+        <Text style={stylesLocal.info}>CPF: {cli.cpf}</Text>
+        <Text style={stylesLocal.info}>Clube: {cli.clube}</Text>
       </View>
 
-      <View
-        style={styles_local.botoes_card}>
-        <View style={styles_local.botao_deletar}>
-          <Pressable
-            onPress={() => props.onDeletar(props.cli.id)}>
-            <Text style={styles_local.texto_botao_card}>
-              X
-            </Text>
-          </Pressable>
-        </View>
+      <View style={stylesLocal.botoes_card}>
+        <Pressable
+          style={[stylesLocal.botao_card, { backgroundColor: '#e63946' }]}
+          onPress={() => onDeletar(cli.id)}>
+          <Text style={stylesLocal.texto_botao_card}>✖</Text>
+        </Pressable>
 
-        <View style={styles_local.botao_alterar}>
-          <Pressable
-            onPress={() => props.onAlterar(props.cli.id)}>
-            <Text style={styles_local.texto_botao_card}>
-              A
-            </Text>
-          </Pressable>
-        </View>
+        <Pressable
+          style={[stylesLocal.botao_card, { backgroundColor: '#2a9d8f' }]}
+          onPress={() => onAlterar(cli)}>
+          <Text style={stylesLocal.texto_botao_card}>✎</Text>
+        </Pressable>
       </View>
     </View>
   );
-}
+};
 
 export default TelaConsCliente;
 
-const styles_local = StyleSheet.create({
+const stylesLocal = StyleSheet.create({
   card: {
-    borderWidth: 2,
-    borderColor: 'grey',
-    margin: 5,
-    borderRadius: 10,
-    padding: 3,
-    flexDirection: 'row',
-    backgroundColor: 'white'
+    flexDirection: 'column',
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    marginVertical: 8,
+    marginHorizontal: 10,
+    padding: 12,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
   },
   dados_card: {
-    flex: 1
+    marginBottom: 10,
+  },
+  nome_cliente: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1d3557',
+    marginBottom: 6,
+  },
+  info: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 2,
   },
   botoes_card: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-end',
+    gap: 10,
   },
-  botao_deletar: {
-    backgroundColor: 'red',
+  botao_card: {
     width: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  botao_alterar: {
-    backgroundColor: 'yellow',
-    width: 40,
+    height: 40,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   texto_botao_card: {
-    fontWeight: "bold",
-    fontSize: 40,
-    color: 'black'
-  }
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });

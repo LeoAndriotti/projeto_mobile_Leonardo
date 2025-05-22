@@ -92,23 +92,23 @@ const stylesLocal = StyleSheet.create({
         textAlign: 'center',
     },
     fundo: {
-        backgroundColor: '#808080',
+        backgroundColor: '#f2f2f2',
     },
     botoes: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        backgroundColor: '#808080',
+        backgroundColor: '#f2f2f2',
         flex: 1,
     },
     botaoCancelar: {
-        backgroundColor: 'red',
+        backgroundColor: '#e63946',
         alignItems: 'center',
         borderRadius: 5,
         height: 50,
         justifyContent: 'center'
     },
     botaoCadastrar: {
-        backgroundColor: 'green',
+        backgroundColor: '#2a9d8f',
         alignItems: 'center',
         borderRadius: 5,
         height: 50,

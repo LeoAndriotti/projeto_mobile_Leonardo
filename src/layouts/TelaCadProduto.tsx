@@ -4,6 +4,7 @@ import { styles } from '../styles/styles';
 import firestore from '@react-native-firebase/firestore';
 import { CadProdutoProps } from '../navigation/HomeNavigator';
 import { Produto } from '../types/Produto';
+import { black } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const TelaCadProduto = (props: CadProdutoProps) => {
   const [nome, setNome] = useState('');
@@ -102,7 +103,7 @@ const TelaCadProduto = (props: CadProdutoProps) => {
         />
 
         <Text style={styles.titulo3}>Categorias:</Text>
-        <View style={{ width: '70%' }}>
+        <View style={{ width: '70%'}}>
           {categorias.map((cat) => (
             <Pressable
               key={cat}
@@ -113,7 +114,7 @@ const TelaCadProduto = (props: CadProdutoProps) => {
                 stylesLocal.checkbox,
                 categoriasSelecionadas.includes(cat) && stylesLocal.checkboxSelecionado
               ]} />
-              <Text style={{ color: 'white' }}>{cat}</Text>
+              <Text style={{ color: 'black' }}>{cat}</Text>
             </Pressable>
           ))}
         </View>
@@ -149,18 +150,18 @@ const stylesLocal = StyleSheet.create({
     textAlign: 'center',
   },
   fundo: {
-    backgroundColor: '#808080',
+    backgroundColor: '#f2f2f2',
     paddingBottom: 20,
   },
   botoes: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#808080',
+    backgroundColor: '#f2f2f2',
     flex: 1,
     paddingTop: 20,
   },
   botaoCancelar: {
-    backgroundColor: 'red',
+    backgroundColor: '#e63946',
     alignItems: 'center',
     borderRadius: 5,
     height: 50,
@@ -168,7 +169,7 @@ const stylesLocal = StyleSheet.create({
     paddingHorizontal: 20,
   },
   botaoCadastrar: {
-    backgroundColor: 'green',
+    backgroundColor: '#2a9d8f',
     alignItems: 'center',
     borderRadius: 5,
     height: 50,

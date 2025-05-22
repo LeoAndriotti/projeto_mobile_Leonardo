@@ -12,8 +12,7 @@ const TelaConsFuncionario = (props: ConsFuncionarioProps) => {
   useEffect(() => {
     const subscribe = firestore()
       .collection('funcionarios')
-      .onSnapshot(querySnapshot => { 
-
+      .onSnapshot(querySnapshot => {
         const data = querySnapshot.docs.map(doc => {
           return {
             id: doc.id,
@@ -39,14 +38,13 @@ const TelaConsFuncionario = (props: ConsFuncionarioProps) => {
   }
 
   function alterarFuncionario(func: Funcionario) {
-    // Navega para a tela de alteração, enviando o objeto func
     props.navigation.navigate('TelaAltFuncionario', { funcionario: func });
   }
 
   return (
     <View style={styles.tela}>
-
       <Text style={styles.tituloTela}>Lista de Funcionários</Text>
+
       <FlatList
         data={funcionarios}
         keyExtractor={(item) => item.id}
@@ -55,7 +53,8 @@ const TelaConsFuncionario = (props: ConsFuncionarioProps) => {
             numeroOrdem={index + 1}
             func={item}
             onDeletar={deletarFuncionario}
-            onAlterar={alterarFuncionario} />}
+            onAlterar={alterarFuncionario}
+          />}
       />
 
       <View style={styles.centralizar}>
@@ -67,93 +66,91 @@ const TelaConsFuncionario = (props: ConsFuncionarioProps) => {
       </View>
     </View>
   );
-}
+};
 
 type ItemFuncionarioProps = {
   numeroOrdem: number;
   func: Funcionario;
   onDeletar: (id: string) => void;
   onAlterar: (func: Funcionario) => void;
-}
+};
 
-const ItemFuncionario = (props: ItemFuncionarioProps) => {
-
+const ItemFuncionario = ({ numeroOrdem, func, onDeletar, onAlterar }: ItemFuncionarioProps) => {
   return (
-    <View style={styles.card}>
-      <View style={styles_local.dados_card}>
-        <Text style={{ fontSize: 30, color: 'black' }}>
-          {props.numeroOrdem + ' - ' + props.func.nome}
+    <View style={stylesLocal.card}>
+      <View style={stylesLocal.dados_card}>
+        <Text style={stylesLocal.nome_funcionario}>
+          {numeroOrdem + ' - ' + func.nome}
         </Text>
-        <Text style={{ fontSize: 20 }}>
-          Id: {props.func.id}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          E-mail: {props.func.email}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          Telefone: {props.func.telefone}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          CPF: {props.func.cpf}
-        </Text>
-        <Text style={{ fontSize: 20 }}>
-          Matrícula: {props.func.matricula}
-        </Text>
+        <Text style={stylesLocal.info}>ID: {func.id}</Text>
+        <Text style={stylesLocal.info}>E-mail: {func.email}</Text>
+        <Text style={stylesLocal.info}>Telefone: {func.telefone}</Text>
+        <Text style={stylesLocal.info}>CPF: {func.cpf}</Text>
+        <Text style={stylesLocal.info}>Matrícula: {func.matricula}</Text>
       </View>
 
-      <View style={styles_local.botoes_card}>
-        <View style={styles_local.botao_deletar}>
-          <Pressable
-            onPress={() => props.onDeletar(props.func.id)}>
-            <Text style={styles_local.texto_botao_card}>X</Text>
-          </Pressable>
-        </View>
+      <View style={stylesLocal.botoes_card}>
+        <Pressable
+          style={[stylesLocal.botao_card, { backgroundColor: '#e63946' }]}
+          onPress={() => onDeletar(func.id)}>
+          <Text style={stylesLocal.texto_botao_card}>✖</Text>
+        </Pressable>
 
-        <View style={styles_local.botao_alterar}>
-          <Pressable
-            onPress={() => props.onAlterar(props.func)}>
-            <Text style={styles_local.texto_botao_card}>A</Text>
-          </Pressable>
-        </View>
+        <Pressable
+          style={[stylesLocal.botao_card, { backgroundColor: '#2a9d8f' }]}
+          onPress={() => onAlterar(func)}>
+          <Text style={stylesLocal.texto_botao_card}>✎</Text>
+        </Pressable>
       </View>
     </View>
   );
-}
+};
 
 export default TelaConsFuncionario;
 
-const styles_local = StyleSheet.create({
+const stylesLocal = StyleSheet.create({
   card: {
-    borderWidth: 2,
-    borderColor: 'grey',
-    margin: 5,
-    borderRadius: 10,
-    padding: 3,
-    flexDirection: 'row',
-    backgroundColor: 'white'
+    flexDirection: 'column',
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    marginVertical: 8,
+    marginHorizontal: 10,
+    padding: 12,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
   },
   dados_card: {
-    flex: 1
+    marginBottom: 10,
+  },
+  nome_funcionario: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1d3557',
+    marginBottom: 6,
+  },
+  info: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 2,
   },
   botoes_card: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-end',
+    gap: 10,
   },
-  botao_deletar: {
-    backgroundColor: 'red',
+  botao_card: {
     width: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  botao_alterar: {
-    backgroundColor: 'green',
-    width: 40,
+    height: 40,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   texto_botao_card: {
-    fontWeight: "bold",
-    fontSize: 40,
-    color: 'black'
-  }
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
