@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
-import { styles } from '../styles/styles';
 import firestore from '@react-native-firebase/firestore';
 import { CadProdutoProps } from '../navigation/HomeNavigator';
 import { Produto } from '../types/Produto';
-import { black } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const TelaCadProduto = (props: CadProdutoProps) => {
   const [nome, setNome] = useState('');
@@ -25,31 +23,31 @@ const TelaCadProduto = (props: CadProdutoProps) => {
   }, []);
 
   function toggleCategoria(categoria: string) {
-    setCategoriasSelecionadas((prev) =>
+    setCategoriasSelecionadas(prev =>
       prev.includes(categoria)
-        ? prev.filter((c) => c !== categoria)
+        ? prev.filter(c => c !== categoria)
         : [...prev, categoria]
     );
   }
 
   function cadastrar() {
     if (verificaCampos()) {
-      let produto = {
+      const produto = {
         nome,
         codigoBarras,
         preco: Number(preco),
-        categorias: categoriasSelecionadas
+        categorias: categoriasSelecionadas,
       } as Produto;
 
       firestore()
         .collection('produtos')
         .add(produto)
         .then(() => {
-          Alert.alert("Produto cadastrado com sucesso!");
+          Alert.alert('Produto cadastrado com sucesso!');
           props.navigation.goBack();
         })
-        .catch((error) => {
-          Alert.alert("Erro", String(error));
+        .catch(error => {
+          Alert.alert('Erro', String(error));
         });
     }
   }
@@ -71,50 +69,54 @@ const TelaCadProduto = (props: CadProdutoProps) => {
   }
 
   return (
-    <View style={styles.tela}>
-      <View style={[styles.centralizar, stylesLocal.fundo]}>
-        <Text style={styles.titulo1}>Cadastro de Produtos</Text>
+    <View style={stylesLocal.fundo}>
+      <View style={stylesLocal.container}>
+        <Text style={stylesLocal.titulo}>Cadastro de Produtos</Text>
         <Image
           source={require('../images/produto.png')}
-          style={styles.imagem_200}
+          style={stylesLocal.imagem}
         />
 
-        <Text style={styles.titulo3}>Nome:</Text>
+        <Text style={stylesLocal.label}>Nome:</Text>
         <TextInput
           value={nome}
-          style={[styles.caixa_texto, styles.largura_70]}
-          placeholder='Nome'
+          style={stylesLocal.caixaTexto}
+          placeholder="Nome"
           onChangeText={setNome}
         />
-        <Text style={styles.titulo3}>Código de Barras:</Text>
+
+        <Text style={stylesLocal.label}>Código de Barras:</Text>
         <TextInput
           value={codigoBarras}
-          style={[styles.caixa_texto, styles.largura_70]}
-          placeholder='Código de Barras'
+          style={stylesLocal.caixaTexto}
+          placeholder="Código de Barras"
           onChangeText={setCodigoBarras}
         />
-        <Text style={styles.titulo3}>Preço:</Text>
+
+        <Text style={stylesLocal.label}>Preço:</Text>
         <TextInput
           value={preco}
-          style={[styles.caixa_texto, styles.largura_70]}
-          placeholder='Preço'
-          keyboardType='numeric'
+          style={stylesLocal.caixaTexto}
+          placeholder="Preço"
+          keyboardType="numeric"
           onChangeText={setPreco}
         />
 
-        <Text style={styles.titulo3}>Categorias:</Text>
-        <View style={{ width: '70%'}}>
-          {categorias.map((cat) => (
+        <Text style={stylesLocal.label}>Categorias:</Text>
+        <View style={stylesLocal.categoriasContainer}>
+          {categorias.map(cat => (
             <Pressable
               key={cat}
               onPress={() => toggleCategoria(cat)}
               style={stylesLocal.categoriaItem}
             >
-              <View style={[
-                stylesLocal.checkbox,
-                categoriasSelecionadas.includes(cat) && stylesLocal.checkboxSelecionado
-              ]} />
-              <Text style={{ color: 'black' }}>{cat}</Text>
+              <View
+                style={[
+                  stylesLocal.checkbox,
+                  categoriasSelecionadas.includes(cat) && stylesLocal.checkboxSelecionado,
+                ]}
+              />
+              <Text style={stylesLocal.categoriaTexto}>{cat}</Text>
             </Pressable>
           ))}
         </View>
@@ -122,10 +124,10 @@ const TelaCadProduto = (props: CadProdutoProps) => {
 
       <View style={stylesLocal.botoes}>
         <Pressable style={stylesLocal.botaoCadastrar} onPress={cadastrar}>
-          <Text style={[styles.titulo2, stylesLocal.textoCadastCanc]}>Cadastrar</Text>
+          <Text style={stylesLocal.textoBotao}>Cadastrar</Text>
         </Pressable>
         <Pressable style={stylesLocal.botaoCancelar} onPress={() => props.navigation.goBack()}>
-          <Text style={[styles.titulo2, stylesLocal.textoCadastCanc]}>Voltar</Text>
+          <Text style={stylesLocal.textoBotao}>Voltar</Text>
         </Pressable>
       </View>
     </View>
@@ -135,61 +137,108 @@ const TelaCadProduto = (props: CadProdutoProps) => {
 export default TelaCadProduto;
 
 const stylesLocal = StyleSheet.create({
-  tituloRadio: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 25,
-  },
-  textoCadastCanc: {
-    color: 'white',
-    fontSize: 25,
-    marginTop: 5,
-    width: 150,
-    textAlign: 'center',
-  },
   fundo: {
-    backgroundColor: '#f2f2f2',
-    paddingBottom: 20,
-  },
-  botoes: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#f2f2f2',
     flex: 1,
-    paddingTop: 20,
+    backgroundColor: '#f2f2f2',
+    paddingHorizontal: 12,
+    paddingTop: 10,
+    justifyContent: 'space-between',
   },
-  botaoCancelar: {
-    backgroundColor: '#e63946',
-    alignItems: 'center',
-    borderRadius: 5,
-    height: 50,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
+  container: {
+    backgroundColor: '#fff',
+    padding: 12,
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 3,
+    marginBottom: 12,
   },
-  botaoCadastrar: {
-    backgroundColor: '#2a9d8f',
-    alignItems: 'center',
+  titulo: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  imagem: {
+    width: 120,
+    height: 120,
+    alignSelf: 'center',
+    marginBottom: 12,
+  },
+  label: {
+    fontSize: 13,
+    marginBottom: 4,
+    color: '#333',
+  },
+  caixaTexto: {
+    width: '100%',
+    height: 36,
+    borderWidth: 1,
+    borderColor: '#ccc',
     borderRadius: 5,
-    height: 50,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
+    fontSize: 13,
+    backgroundColor: '#f9f9f9',
+    marginBottom: 8,
+  },
+  categoriasContainer: {
+    width: '100%',
+    marginTop: 6,
+    flexDirection: 'row',
+    flexWrap: 'wrap',           
+    justifyContent: 'flex-start',
   },
   categoriaItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: '30%',              
     marginBottom: 8,
   },
+  categoriaTexto: {
+    fontSize: 12,
+    color: '#000',
+  },
   checkbox: {
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
     borderWidth: 1,
-    borderColor: 'white',
-    marginRight: 10,
+    borderColor: '#555',
+    marginRight: 8,
     backgroundColor: '#fff',
+    borderRadius: 3,
   },
   checkboxSelecionado: {
-    backgroundColor: '#00cc00',
-  }
+    backgroundColor: '#2a9d8f',
+    borderColor: '#2a9d8f',
+  },
+  botoes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 4,
+    marginBottom: 12,
+  },
+  botaoCadastrar: {
+    flex: 1,
+    backgroundColor: '#2a9d8f',
+    paddingVertical: 10,
+    borderRadius: 6,
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  botaoCancelar: {
+    flex: 1,
+    backgroundColor: '#e63946',
+    paddingVertical: 10,
+    borderRadius: 6,
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  textoBotao: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });
